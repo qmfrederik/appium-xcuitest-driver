@@ -1,0 +1,27 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  vmImage: 'macOS 10.13'
+
+variables:
+  scheme: ''
+  sdk: 'iphoneos'
+  configuration: 'Release'
+
+steps:
+- task: Xcode@5
+  displayName: 'Build the app using Xcode'
+  inputs:
+    actions: 'build'
+    sdk: '$(sdk)'
+    scheme: '$(scheme)'
+    configuration: '$(configuration)'
+    xcWorkspacePath: 'test/assets/TouchIDExample.app/*.xcodeproj/project.xcworkspace'
+    exportPath: '$(agent.buildDirectory)/output/$(sdk)/$(configuration)'
+    packageApp: true
